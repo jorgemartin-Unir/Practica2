@@ -1,0 +1,278 @@
+---
+- name: Instalamos elementos necesarios
+  hosts: "*"
+  become: yes
+
+  tasks:
+  - name: Actualizamos las maquinas al ultimo nivel
+    dnf:
+      name: "*"
+      state: latest
+  - name: Configurar la sincronización horaria America/Chicago
+    community.general.timezone:
+      name: America/Chicago
+  - name: servicio chrony
+    dnf:
+      name: chrony
+      state: latest
+  - name: activamos chrony
+    ansible.builtin.systemd:
+      name: chronyd
+      enabled: yes
+      state: started
+  - name: activamos ntp 
+    command: /usr/bin/timedatectl set-ntp true
+  - name: SElinux disabled
+    command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+  - name: Instalamos paquetes nfs necesarios en todas las maquinas
+    command: dnf install nfs-utils nfs4-acl-tools wget -y
+
+- name: Instalacion de NFS
+  hosts: "nfs"
+  become: yes
+
+  tasks:
+  - name: Instalamos paquetes nfs 
+    command: dnf install nfs-utils nfs4-acl-tools wget -y
+  - name: activamos nfs server
+    ansible.builtin.systemd:
+      name: nfs-server
+      enabled: yes
+      state: started
+  - name: Configuramos export
+    template:
+      src: "./Templates/exports.j2"
+      dest: "/etc/exports"
+      owner: "root"
+      group: "root"
+      mode: "0644"
+  - name: Reload exports
+    command: exportfs -r
+  - name: Firewall nfs 
+    ansible.posix.firewalld:
+      service: nfs
+      permanent: yes
+      state: enabled
+  - name: Firewall rpc-bind
+    ansible.posix.firewalld:
+      service: rpc-bind
+      permanent: yes
+      state: enabled
+  - name: Firewall mountd 
+    ansible.posix.firewalld:
+      service: mountd
+      permanent: yes
+      state: enabled
+  - name: Firewall reload
+    systemd:
+      name: firewalld
+      state: reloaded
+
+- name: DNS Config
+  hosts: "masterworkers"
+  tasks:
+  - name: update /etc/hosts file
+    become: true
+    blockinfile:
+      dest: /etc/hosts
+      content: "{{ lookup('template', 'Templates/hosts.j2') }}"
+      state: present
+  - name: Activamos masquerading
+    community.general.modprobe:
+      name: br_netfilter
+      state: present
+  - name: Firewall mountd 
+    ansible.posix.firewalld:
+      masquerade: yes
+      permanent: yes
+      state: enabled
+  - name: Firewall reload
+    systemd:
+      name: firewalld
+      state: reloaded
+  - name: Configuramos export
+    template:
+      src: "./Templates/k8sconf.j2"
+      dest: "/etc/sysctl.d/k8s.conf"
+      owner: "root"
+      group: "root"
+      mode: "0644"
+  - name: Activamos Conf
+    command: sysctl --system
+
+  - name: Repositorio Docker 
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docer-ce.repo
+    become: yes
+  - name: Instalamos Docker. Version especifica del documento 19.03
+    command: dnf install docker-ce-19.03.14-3.el8 containerd.io -y
+  - name: Activamos docker
+    ansible.builtin.systemd:
+      name: docker
+      enabled: yes
+      state: started
+  - name: Configuramos export
+    template:
+      src: "./Templates/kubernetes_repo.j2"
+      dest: "/etc/yum.repos.d/kubernetes.repo"
+      owner: "root"
+      group: "root"
+      mode: "0644"
+  - name: Instalamos Kubernetes
+    command: dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+  - name: Activamos Kubernetes
+    ansible.builtin.systemd:
+      name: kubelet
+      enabled: yes
+      state: started
+
+- name: Configurando kubernetes en el nodo master
+  hosts: "masters"
+  tasks:
+      - name: Firewall 6443/tcp 
+        ansible.posix.firewalld:
+          port: 6443/tcp 
+          permanent: yes
+          state: enabled
+      - name: Firewall 2379-2380/tcp
+        ansible.posix.firewalld:
+          port: 2379-2380/tcp 
+          permanent: yes
+          state: enabled
+      - name: Firewall 10250/tcp
+        ansible.posix.firewalld:
+          port: 10250/tcp 
+          permanent: yes
+          state: enabled
+      - name: Firewall 10251/tcp
+        ansible.posix.firewalld:
+          port: 10251/tcp
+          permanent: yes
+          state: enabled
+      - name: Firewall 10252/tcp
+        ansible.posix.firewalld:
+          port: 10252/tcp 
+          permanent: yes
+          state: enabled
+      - name: Firewall 10255/tcp
+        ansible.posix.firewalld:
+          port: 10255/tcp
+          permanent: yes
+          state: enabled
+      - name: Firewall reload
+        systemd:
+          name: firewalld
+          state: reloaded
+      - name: Instalamos kubeadm
+        command: kubeadm config images pull
+      - name: Acceso a los workers. Firewall 
+        ansible.posix.firewalld:
+          rich_rule: 'rule family=ipv4 source address={{ item }}/32 accept'
+          permanent: yes
+          state: enabled
+        with_items: "{{ groups['workers'] }}" 
+      - name: Firewall reload
+        systemd:
+          name: firewalld
+          state: reloaded
+      - name: Firewall acceso de los contenedores a localhost
+        ansible.posix.firewalld:
+          rich_rule: 'rule family=ipv4 source address=172.17.0.0/16 accept'
+          permanent: yes
+          zone: public
+          state: enabled
+      - name: Firewall reload
+        systemd:
+          name: firewalld
+          state: reloaded
+      - name: Reset Kubernetes
+        shell: kubeadm reset --force
+        register: reset_cluster
+      - name: CNI de kubernetes
+        shell: kubeadm init --pod-network-cidr 192.167.0.0/16
+        register: kubeadm_token 
+      - name: Create Kubernetes config directory
+        file:
+          path: "/root/.kube/"
+          state: directory
+      - name: Copy admin.conf to Home directory
+        when: kubeadm_token is succeeded
+        copy:
+          src: "/etc/kubernetes/admin.conf"
+          dest: "/root/.kube/config"
+          owner: "{{ ansible_user | default(ansible_user_id) }}"
+          group: "{{ ansible_user | default(ansible_user_id) }}"
+          mode: 0755
+          remote_src: true
+      - name: SDN Calico
+        shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+      - name: Obtenemos fichero de definicion de Calico
+        get_url:
+          url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+          dest: "."
+      - name: Configuramos export
+        template:
+          src: "./Templates/calicoresources.j2"
+          dest: "."
+          owner: "root"
+          group: "root"
+          mode: "0644"
+      - name: Instalamos Calico 
+        shell: kubectl apply -f custom-resources.yaml
+- name: Configurando los workers
+  hosts: workers
+  tasks:
+    - name: Firewall. Abrir puertos
+      ansible.posix.firewalld:
+        port: [10250/tcp,30000-32767/tcp]
+        permanent: yes
+        state: enabled
+    - name: Firewall reload
+      systemd:
+        name: firewalld
+        state: reloaded
+    - name: Generate join token
+      command: kubeadm token create --print-join-command
+      register: kubeadm_join_cmd
+      delegate_to: "{{ groups['masters'][0] }}"
+    - name: Copiamos variable con token
+      set_fact:
+        kubeadm_join: "{{ kubeadm_join_cmd.stdout }}"
+    - debug: var=kubeadm_join
+    - name: Store join command
+      action: copy content="{{ kubeadm_join }}" dest="/etc/kubernetes/kubeadm-join.command"
+    - name: Run kubeadm join
+      shell:  "{{ kubeadm_join }} --ignore-preflight-errors=swap"
+      
+- name: Ingress controller
+  hosts: "masters"
+  become: yes
+  tasks:
+    - name: Desplegando ingress controller
+      shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
+    - name: Creamos un usuario no administrador
+      ansible.builtin.user:
+        name: kubeadmin
+        #Creo fichero secret.yaml con password, pero no lo usare para estas pruebas {{password}}
+        password: 600mercuriO14
+    - name: Directory kube
+      ansible.builtin.file:
+        path: /home/kubeadmin/.kube
+        state: directory
+        mode: '0755'
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/kubeadmin/.kube/config
+        owner: kubeadmin
+        group: kubeadmin
+        mode: '0644'
+    - name: Copiamos kubeadmin 
+      template:
+        src: "./Templates/kubeadmin.j2"
+        dest: "/etc/sudoers.d/kubeadmin"
+        owner: "kubeadmin"
+        group: "kubeadmin"
+        mode: "0644"    
+      

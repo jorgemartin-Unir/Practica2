@@ -1,0 +1,1128 @@
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+failed: [master] (item=worker01) => {"ansible_loop_var": "item", "changed": false, "item": "worker01", "msg": "Unsupported parameters for (ansible.posix.firewalld) module: msg Supported parameters include: icmp_block, icmp_block_inversion, immediate, interface, masquerade, offline, permanent, port, rich_rule, service, source, state, timeout, zone"}
+
+PLAY RECAP *****************************************************************************************
+master                     : ok=39   changed=13   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+failed: [master] (item=worker01) => {"ansible_loop_var": "item", "changed": false, "item": "worker01", "msg": "Unsupported parameters for (ansible.posix.firewalld) module: msg Supported parameters include: icmp_block, icmp_block_inversion, immediate, interface, masquerade, offline, permanent, port, rich_rule, service, source, state, timeout, zone"}
+
+PLAY RECAP *****************************************************************************************
+master                     : ok=39   changed=13   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+failed: [master] (item=worker01) => {"ansible_loop_var": "item", "changed": false, "item": "worker01", "msg": "ERROR: Exception caught: INVALID_RULE: 'family' outside of rule. Use 'rule family=...'."}
+
+PLAY RECAP *****************************************************************************************
+master                     : ok=39   changed=13   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+failed: [master] (item=worker01) => {"ansible_loop_var": "item", "changed": false, "item": "worker01", "msg": "ERROR: Exception caught: INVALID_ADDR: worker01/32"}
+
+PLAY RECAP *****************************************************************************************
+master                     : ok=39   changed=13   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [192.168.0.15]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+changed: [master] => (item=192.168.0.15)
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Firewall acceso de los contenedores a localhost] *********************************************
+fatal: [master]: FAILED! => {"changed": false, "msg": "ERROR: Exception caught: INVALID_RULE: 'family' outside of rule. Use 'rule family=...'."}
+
+PLAY RECAP *****************************************************************************************
+192.168.0.15               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=41   changed=15   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+fatal: [192.168.0.15]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: No route to host", "unreachable": true}
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+ok: [master] => (item=192.168.0.15)
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Firewall acceso de los contenedores a localhost] *********************************************
+changed: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [CNI de kubernetes] ***************************************************************************
+fatal: [master]: FAILED! => {"changed": true, "cmd": "kubeadm init --pod-network-cidr 192.169.0.0/16", "delta": "0:00:00.522940", "end": "2021-02-25 21:56:22.259480", "msg": "non-zero return code", "rc": 1, "start": "2021-02-25 21:56:21.736540", "stderr": "W0225 21:56:21.835536   28098 version.go:102] could not fetch a Kubernetes version from the internet: unable to get URL \"https://dl.k8s.io/release/stable-1.txt\": Get \"https://dl.k8s.io/release/stable-1.txt\": dial tcp: lookup dl.k8s.io on [2001:558:feed::1]:53: write udp [2601:240:4200:c9c0:c5dc:fb7b:f5b6:3693]:55277->[2001:558:feed::1]:53: write: operation not permitted\nW0225 21:56:21.835567   28098 version.go:103] falling back to the local client version: v1.20.4\n\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING FileExisting-tc]: tc not found in system path\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on 75.75.75.75:53: no such host\nerror execution phase preflight: [preflight] Some fatal errors occurred:\n\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml]: /etc/kubernetes/manifests/kube-apiserver.yaml already exists\n\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml]: /etc/kubernetes/manifests/kube-controller-manager.yaml already exists\n\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml]: /etc/kubernetes/manifests/kube-scheduler.yaml already exists\n\t[ERROR FileAvailable--etc-kubernetes-manifests-etcd.yaml]: /etc/kubernetes/manifests/etcd.yaml already exists\n\t[ERROR Port-10250]: Port 10250 is in use\n\t[ERROR DirAvailable--var-lib-etcd]: /var/lib/etcd is not empty\n[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["W0225 21:56:21.835536   28098 version.go:102] could not fetch a Kubernetes version from the internet: unable to get URL \"https://dl.k8s.io/release/stable-1.txt\": Get \"https://dl.k8s.io/release/stable-1.txt\": dial tcp: lookup dl.k8s.io on [2001:558:feed::1]:53: write udp [2601:240:4200:c9c0:c5dc:fb7b:f5b6:3693]:55277->[2001:558:feed::1]:53: write: operation not permitted", "W0225 21:56:21.835567   28098 version.go:103] falling back to the local client version: v1.20.4", "\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly", "\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/", "\t[WARNING FileExisting-tc]: tc not found in system path", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on 75.75.75.75:53: no such host", "error execution phase preflight: [preflight] Some fatal errors occurred:", "\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml]: /etc/kubernetes/manifests/kube-apiserver.yaml already exists", "\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml]: /etc/kubernetes/manifests/kube-controller-manager.yaml already exists", "\t[ERROR FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml]: /etc/kubernetes/manifests/kube-scheduler.yaml already exists", "\t[ERROR FileAvailable--etc-kubernetes-manifests-etcd.yaml]: /etc/kubernetes/manifests/etcd.yaml already exists", "\t[ERROR Port-10250]: Port 10250 is in use", "\t[ERROR DirAvailable--var-lib-etcd]: /var/lib/etcd is not empty", "[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[init] Using Kubernetes version: v1.20.4\n[preflight] Running pre-flight checks", "stdout_lines": ["[init] Using Kubernetes version: v1.20.4", "[preflight] Running pre-flight checks"]}
+
+PLAY RECAP *****************************************************************************************
+192.168.0.15               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=43   changed=16   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: Network is unreachable", "unreachable": true}
+fatal: [192.168.0.15]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: Network is unreachable", "unreachable": true}
+ok: [master]
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+ok: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+ok: [master] => (item=192.168.0.15)
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Firewall acceso de los contenedores a localhost] *********************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Reset Kubernetes] ****************************************************************************
+changed: [master]
+
+TASK [CNI de kubernetes] ***************************************************************************
+fatal: [master]: FAILED! => {"changed": true, "cmd": "kubeadm init --pod-network-cidr 192.169.0.0/16", "delta": "0:00:00.780201", "end": "2021-02-25 22:15:55.119697", "msg": "non-zero return code", "rc": 1, "start": "2021-02-25 22:15:54.339496", "stderr": "\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING FileExisting-tc]: tc not found in system path\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on [2001:558:feed::1]:53: no such host\nerror execution phase preflight: [preflight] Some fatal errors occurred:\n\t[ERROR FileContent--proc-sys-net-ipv6-conf-default-forwarding]: /proc/sys/net/ipv6/conf/default/forwarding contents are not set to 1\n[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly", "\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/", "\t[WARNING FileExisting-tc]: tc not found in system path", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on [2001:558:feed::1]:53: no such host", "error execution phase preflight: [preflight] Some fatal errors occurred:", "\t[ERROR FileContent--proc-sys-net-ipv6-conf-default-forwarding]: /proc/sys/net/ipv6/conf/default/forwarding contents are not set to 1", "[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[init] Using Kubernetes version: v1.20.4\n[preflight] Running pre-flight checks", "stdout_lines": ["[init] Using Kubernetes version: v1.20.4", "[preflight] Running pre-flight checks"]}
+
+PLAY RECAP *****************************************************************************************
+192.168.0.15               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=44   changed=16   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Instalamos elementos necesarios] *************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+fatal: [192.168.0.15]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: Network is unreachable", "unreachable": true}
+fatal: [worker01]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.15 port 22: Network is unreachable", "unreachable": true}
+ok: [master]
+
+TASK [Actualizamos las maquinas al ultimo nivel] ***************************************************
+changed: [master]
+
+TASK [Configurar la sincronización horaria America/Chicago] ****************************************
+ok: [master]
+
+TASK [servicio chrony] *****************************************************************************
+ok: [master]
+
+TASK [activamos chrony] ****************************************************************************
+ok: [master]
+
+TASK [activamos ntp] *******************************************************************************
+changed: [master]
+
+TASK [SElinux disabled] ****************************************************************************
+changed: [master]
+
+TASK [Instalamos paquetes nfs necesarios en todas las maquinas] ************************************
+changed: [master]
+
+PLAY [Instalacion de NFS] **************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Instalamos paquetes nfs] *********************************************************************
+changed: [master]
+
+TASK [activamos nfs server] ************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Reload exports] ******************************************************************************
+changed: [master]
+
+TASK [Firewall nfs] ********************************************************************************
+ok: [master]
+
+TASK [Firewall rpc-bind] ***************************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+PLAY [DNS Config] **********************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [update /etc/hosts file] **********************************************************************
+ok: [master]
+
+TASK [Activamos masquerading] **********************************************************************
+ok: [master]
+
+TASK [Firewall mountd] *****************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Activamos Conf] ******************************************************************************
+changed: [master]
+
+TASK [Repositorio Docker] **************************************************************************
+ok: [master]
+
+TASK [Instalamos Docker. Version especifica del documento 19.03] ***********************************
+changed: [master]
+
+TASK [Activamos docker] ****************************************************************************
+ok: [master]
+
+TASK [Configuramos export] *************************************************************************
+ok: [master]
+
+TASK [Instalamos Kubernetes] ***********************************************************************
+changed: [master]
+
+TASK [Activamos Kubernetes] ************************************************************************
+changed: [master]
+
+PLAY [Configurando kubernetes en el nodo master] ***************************************************
+
+TASK [Gathering Facts] *****************************************************************************
+ok: [master]
+
+TASK [Firewall 6443/tcp] ***************************************************************************
+ok: [master]
+
+TASK [Firewall 2379-2380/tcp] **********************************************************************
+ok: [master]
+
+TASK [Firewall 10250/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10251/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10252/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall 10255/tcp] **************************************************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Instalamos kubeadm] **************************************************************************
+changed: [master]
+
+TASK [Acceso a los workers. Firewall] **************************************************************
+ok: [master] => (item=192.168.0.15)
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Firewall acceso de los contenedores a localhost] *********************************************
+ok: [master]
+
+TASK [Firewall reload] *****************************************************************************
+changed: [master]
+
+TASK [Reset Kubernetes] ****************************************************************************
+changed: [master]
+
+TASK [CNI de kubernetes] ***************************************************************************
+fatal: [master]: FAILED! => {"changed": true, "cmd": "kubeadm init --pod-network-cidr 192.167.0.0/16", "delta": "0:00:00.793465", "end": "2021-02-25 22:22:14.999206", "msg": "non-zero return code", "rc": 1, "start": "2021-02-25 22:22:14.205741", "stderr": "\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly\n\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/\n\t[WARNING FileExisting-tc]: tc not found in system path\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached\n\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on [2001:558:feed::1]:53: no such host\nerror execution phase preflight: [preflight] Some fatal errors occurred:\n\t[ERROR FileContent--proc-sys-net-ipv6-conf-default-forwarding]: /proc/sys/net/ipv6/conf/default/forwarding contents are not set to 1\n[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["\t[WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly", "\t[WARNING IsDockerSystemdCheck]: detected \"cgroupfs\" as the Docker cgroup driver. The recommended driver is \"systemd\". Please follow the guide at https://kubernetes.io/docs/setup/cri/", "\t[WARNING FileExisting-tc]: tc not found in system path", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\" could not be reached", "\t[WARNING Hostname]: hostname \"centos8.linuxvmimages.local\": lookup centos8.linuxvmimages.local on [2001:558:feed::1]:53: no such host", "error execution phase preflight: [preflight] Some fatal errors occurred:", "\t[ERROR FileContent--proc-sys-net-ipv6-conf-default-forwarding]: /proc/sys/net/ipv6/conf/default/forwarding contents are not set to 1", "[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[init] Using Kubernetes version: v1.20.4\n[preflight] Running pre-flight checks", "stdout_lines": ["[init] Using Kubernetes version: v1.20.4", "[preflight] Running pre-flight checks"]}
+
+PLAY RECAP *****************************************************************************************
+192.168.0.15               : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=44   changed=17   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+worker01                   : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+

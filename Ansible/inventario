@@ -1,0 +1,21 @@
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=ansible
+
+[servers]
+master ansible_ssh_host=192.168.0.16
+worker01 ansible_ssh_host=192.168.0.15
+
+
+[masters]
+master ansible_connection=local
+
+[workers]
+192.168.0.15
+
+[nfs]
+master
+
+[masterworkers]
+worker01
+master
