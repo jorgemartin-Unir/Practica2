@@ -1,19 +1,74 @@
-apiVersion: apps/v1 # Usa apps/v1beta2 para versiones anteriores a 1.9.0
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: webapp-volumes
+  namespace: webapp-volumes
+  labels:
+    app: webapp-volumes
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx
-  replicas: 2 # indica al controlador que ejecute 2 pods
+      app: webapp-volumes
   template:
     metadata:
       labels:
-        app: nginx
+        app: webapp-volumes
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.7.9
+      - name: webapp-volumes
+        image: quay.io/rhte_2019/webapp:v1
         ports:
         - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: volumes-service
+    namespace: webapp-volumes
+spec:
+    selector:
+      app: webapp-volumes
+    ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: volumes-ingress
+  namespace: webapp-volumes
+  labels:
+    app: webapp-volumes
+  annotations:
+      haproxy.org/path-rewrite: "/"
+spec:
+  rules:
+  - host: foo-volumes.bar
+    http:
+      paths:
+      - path: /volumes
+        pathType: "Prefix"
+        backend:
+          service:
+            name: volumes-service
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy-configmap
+  namespace: webapp-volumes
+data:
+  servers-increment: "42"
+  ssl-redirect: "OFF"

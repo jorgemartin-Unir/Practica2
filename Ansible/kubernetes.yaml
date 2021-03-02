@@ -1,5 +1,5 @@
 ---
-- name: Instalamos elementos necesarios
+- name: Instalamos kubernetes
   hosts: "*"
   become: yes
 
