@@ -12,12 +12,12 @@
     - name: NFS lee definicion en yaml
       community.kubernetes.k8s:
         state: present
-        src: ./nfs-pv.yml
+        src: ./nfs-pv.yaml
     - name: Asignamos volumen
       community.kubernetes.k8s:
         state: present
-        src: ./nfs-pvc.yml
+        src: ./nfs-pvc.yaml
     - name: Desplegamos
       community.kubernetes.k8s:
         state: present
-        src: ./deployment.yml
+        src: ./deployment.yaml

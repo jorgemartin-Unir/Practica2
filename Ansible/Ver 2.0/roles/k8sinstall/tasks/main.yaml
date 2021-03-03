@@ -1,0 +1,24 @@
+---
+- name: Configuramos export
+  template:
+    src: "k8sconf.j2"
+    dest: "/etc/sysctl.d/k8s.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+- name: Activamos Conf
+  command: sysctl --system
+- name: Configuramos export
+  template:
+    src: "kubernetes_repo.j2"
+    dest: "/etc/yum.repos.d/kubernetes.repo"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+- name: Instalamos Kubernetes
+  command: dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+- name: Activamos Kubernetes
+  ansible.builtin.systemd:
+    name: kubelet
+    enabled: yes
+    state: started

@@ -1,0 +1,56 @@
+---
+- name: Instalamos kubernetes
+  hosts: all
+  become: yes
+  roles:
+    - init
+  
+- name: Instalacion de NFS
+  hosts: "nfs"
+  become: yes
+  roles:
+    - nfs
+
+- name: Tareas en master y workers
+  hosts: "masterworkers"
+  become: yes
+  roles:
+    - dns
+    - swap
+    - k8sinstall
+    - docker
+  tasks:
+    - name: Activamos masquerading
+      community.general.modprobe:
+        name: br_netfilter
+        state: present
+    - name: Firewall mountd 
+      ansible.posix.firewalld:
+        masquerade: yes
+        permanent: yes
+        state: enabled
+    - name: Firewall reload
+      systemd:
+        name: firewalld
+        state: reloaded
+- name: Configuracion de kubernetes en master
+  hosts: "master"
+  become: yes
+  roles:
+    - k8sconfiguremaster
+    - calico
+- name: Configuracion de kubernetes en workers
+  hosts: "workers"
+  become: yes
+  roles:
+    - k8sconfigureworkers
+- name: Ingress Controller
+  hosts: "master"
+  become: yes
+  roles:
+    - ic
+    
+    
+
+    
+

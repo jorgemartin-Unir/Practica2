@@ -1,0 +1,13 @@
+---
+- name: Repositorio Docker 
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+  become: yes
+- name: Instalamos Docker. Version especifica del documento 19.03
+  command: dnf install docker-ce-19.03.14-3.el8 containerd.io -y
+- name: Activamos docker
+  ansible.builtin.systemd:
+    name: docker
+    enabled: yes
+    state: started

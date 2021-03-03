@@ -1,0 +1,17 @@
+---
+
+- name: SDN Calico
+  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+- name: Obtenemos fichero de definicion de Calico
+  get_url:
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: "."
+- name: Configuramos export
+  template:
+    src: "calicoresources.j2"
+    dest: "."
+    owner: "root"
+    group: "root"
+    mode: "0644"
+- name: Instalamos Calico 
+  shell: kubectl apply -f custom-resources.yaml

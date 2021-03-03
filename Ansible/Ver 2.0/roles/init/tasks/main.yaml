@@ -1,0 +1,23 @@
+---
+- name: Actualizamos las maquinas al ultimo nivel
+  dnf:
+    name: "*"
+    state: latest
+- name: Configurar la sincronización horaria America/Chicago
+  community.general.timezone:
+    name: America/Chicago
+- name: servicio chrony
+  dnf:
+    name: chrony
+    state: latest
+- name: activamos chrony
+  ansible.builtin.systemd:
+    name: chronyd
+    enabled: yes
+    state: started
+- name: activamos ntp 
+  command: /usr/bin/timedatectl set-ntp true
+- name: SElinux disabled
+  command: sed -i s/=enforcing/=disabled/g /etc/selinux/config
+- name: Instalamos paquetes nfs necesarios en todas las maquinas
+  command: dnf install nfs-utils nfs4-acl-tools wget -y

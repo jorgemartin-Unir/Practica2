@@ -190,7 +190,7 @@
         shell: kubeadm reset --force
         register: reset_cluster
       - name: CNI de kubernetes
-        shell: kubeadm init --pod-network-cidr 192.167.0.0/16
+        shell: kubeadm init --pod-network-cidr 192.167.0.0/16 --ignore-preflight-errors=swap
         register: kubeadm_token 
       - name: Create Kubernetes config directory
         file:

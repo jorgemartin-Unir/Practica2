@@ -1,0 +1,29 @@
+---
+# despelgando ingress controller
+- name: Desplegando ingress controller
+  shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
+- name: Creamos un usuario no administrador
+  ansible.builtin.user:
+    name: kubeadmin
+    #Creo fichero secret.yaml con password, pero no lo usare para estas pruebas {{password}}
+    password: 600mercuriO14
+- name: Directory kube
+  ansible.builtin.file:
+    path: /home/kubeadmin/.kube
+    state: directory
+    mode: '0755'
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/kubeadmin/.kube/config
+    owner: kubeadmin
+    group: kubeadmin
+    mode: '0644'
+- name: Copiamos kubeadmin 
+  template:
+    src: "kubeadmin.j2"
+    dest: "/etc/sudoers.d/kubeadmin"
+    owner: "kubeadmin"
+    group: "kubeadmin"
+    mode: "0644"    
+  

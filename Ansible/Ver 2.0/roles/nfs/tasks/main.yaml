@@ -1,0 +1,36 @@
+---
+- name: Instalamos paquetes nfs 
+  command: dnf install nfs-utils nfs4-acl-tools wget -y
+- name: activamos nfs server
+  ansible.builtin.systemd:
+    name: nfs-server
+    enabled: yes
+    state: started
+- name: Configuramos export
+  template:
+    src: "exports.j2"
+    dest: "/etc/exports"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+- name: Reload exports
+  command: exportfs -r
+- name: Firewall nfs 
+  ansible.posix.firewalld:
+    service: nfs
+    permanent: yes
+    state: enabled
+- name: Firewall rpc-bind
+  ansible.posix.firewalld:
+    service: rpc-bind
+    permanent: yes
+    state: enabled
+- name: Firewall mountd 
+  ansible.posix.firewalld:
+    service: mountd
+    permanent: yes
+    state: enabled
+- name: Firewall reload
+  systemd:
+    name: firewalld
+    state: reloaded
