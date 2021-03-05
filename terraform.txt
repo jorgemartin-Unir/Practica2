@@ -1,0 +1,24 @@
+Folder PATH listing for volume OSDisk
+Volume serial number is DEC2-5BEE
+C:\_JORGE\PERSONAL\UNIR\PRACTICA 2\PROJECT\TERRAFORM
+³   .terraform.lock.hcl
+³   azure.tfplan
+³   id_rsa.pub
+³   main.tf
+³   network.tf
+³   security.tf
+³   terraform.exe
+³   terraform.tfstate
+³   terraform.tfstate.backup
+³   vars.tf
+³   vm.tf
+³   
+ÀÄÄÄ.terraform
+    ÀÄÄÄproviders
+        ÀÄÄÄregistry.terraform.io
+            ÀÄÄÄhashicorp
+                ÀÄÄÄazurerm
+                    ÀÄÄÄ2.46.1
+                        ÀÄÄÄwindows_amd64
+                                terraform-provider-azurerm_v2.46.1_x5.exe
+                                
